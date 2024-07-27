@@ -2,12 +2,9 @@
 // @name         Custom DB
 // @description  Adds options to customize DB and make it more streamer friendly
 // @version      1.1.70
-// @author       Killburne
+// @author       Shik0
 // @license		 MIT
 // @namespace    https://www.yugioh-api.com/
-// @homepageURL  https://github.com/killburne/custom-duelingbook/
-// @updateURL    https://github.com/killburne/custom-duelingbook/raw/master/custom-duelingbook.user.js
-// @downloadURL  https://github.com/killburne/custom-duelingbook/raw/master/custom-duelingbook.user.js
 // @match	     *://*.duelingbook.com/*
 // @include      https://www.duelingbook.com/*
 // @require            https://openuserjs.org/src/libs/sizzle/GM_config.js
@@ -1138,6 +1135,9 @@ $(document).ready(function() {
                         await sendFromFieldToGY(cmd.param);
                     }
                     break;
+                case 'stopViewing':
+                        await stopViewing();
+                    break;
                 case 'banishFromGY':
                     if (cmd.param) {
                         await banishCardsFromGY(cmd.param);
@@ -1951,7 +1951,7 @@ $(document).ready(function() {
         }
     }
 
-    async function doStuffInDeck(cb, exit = false) {
+    async function doStuffInDeck(cb, exit = true) {
         const player = getCurrentPlayer();
         if (!player || player.main_arr.length === 0) {
             return;
@@ -1967,7 +1967,7 @@ $(document).ready(function() {
         await waitMs(250);
     }
 
-    async function doStuffInExtraDeck(cb, exit = false) {
+    async function doStuffInExtraDeck(cb, exit = true) {
         const player = getCurrentPlayer();
         if (!player || player.extra_arr.length === 0) {
             return;
@@ -1981,15 +1981,6 @@ $(document).ready(function() {
             (window.unsafeWindow || window).exitViewing();
         }
         await waitMs(250);
-    }
-
-    async function sendFromExtraDeckToGY(name) {
-        const player = getCurrentPlayer();
-        if (!player || player.extra_arr.length === 0) {
-            return;
-        }
-
-        await doStuffInExtraDeck(async () => sendCardsToGY(player.extra_arr, name));
     }
 
     async function specialSummonFromExtraDeckRandomZone(name, position) {
@@ -2093,7 +2084,7 @@ $(document).ready(function() {
 				(window.unsafeWindow || window).summoning_play = position;
 				(window.unsafeWindow || window).startChooseMonsterZones();*/
             }
-        }, false);
+        }, true);
     }
 
     async function sendFromDeckToGY(name) {
@@ -2138,7 +2129,7 @@ $(document).ready(function() {
 				(window.unsafeWindow || window).summoning_play = position;
 				(window.unsafeWindow || window).startChooseMonsterZones();*/
             }
-        }, false);
+        }, true);
     }
 
     async function activateSpellTrapFromDeck(name) {
