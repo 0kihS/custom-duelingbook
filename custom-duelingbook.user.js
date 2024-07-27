@@ -7,6 +7,7 @@
 // @namespace    https://www.yugioh-api.com/
 // @match	     *://*.duelingbook.com/*
 // @include      https://www.duelingbook.com/*
+// @updateURL    https://github.com/0kihS/custom-duelingbook/raw/master/custom-duelingbook.user.js
 // @require            https://openuserjs.org/src/libs/sizzle/GM_config.js
 // @grant              GM.getValue
 // @grant              GM.setValue
@@ -2144,7 +2145,7 @@ $(document).ready(function() {
                 (window.unsafeWindow || window).menu_card = card;
                 (window.unsafeWindow || window).cardMenuClicked(card, 'To ST');
             }
-        }, false);
+        }, true);
     }
 
     async function activateSpellTrapFromDeckToZone(name, zones) {
